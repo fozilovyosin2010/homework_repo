@@ -41,6 +41,24 @@ const App = () => {
     }
   };
 
+  const putData = async (id, obj) => {
+    try {
+      await axios.put(`${api}/${id}`, obj);
+      getData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const patchData = async (id, check) => {
+    try {
+      await axios.patch(`${api}/${id}`, { complete: check });
+      getData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -50,14 +68,81 @@ const App = () => {
   }
 
   const [isModalAddOpen, setIsModalAddOpen] = useState(false);
+
   const showAddModal = () => {
     setIsModalAddOpen(true);
   };
+
+  const [inpAddName, setInpAddName] = useState("");
+  const [inpAddDes, setInpAddDes] = useState("");
+
   const handleAddOk = () => {
-    setIsModalAddOpen(false);
+    if (inpAddName.trim() !== "" && inpAddDes.trim() !== "") {
+      const obj = {
+        id: Date.now(),
+        name: inpAddName.trim(),
+        description: inpAddDes.trim(),
+        complete: false,
+      };
+
+      setInpAddDes("");
+      setInpAddName("");
+
+      postData(obj);
+
+      setIsModalAddOpen(false);
+    } else {
+      alert("Пополни инпут");
+    }
   };
   const handleAddCancel = () => {
     setIsModalAddOpen(false);
+
+    setInpAddDes("");
+    setInpAddName("");
+  };
+
+  // edit
+  const [isModalEditOpen, setIsModalEditOpen] = useState(false);
+  const [idx, setIdx] = useState(null);
+
+  const [inpEditName, setInpEditName] = useState("");
+  const [inpEditDes, setInpEditDes] = useState("");
+
+  const showEditModal = (elem) => {
+    setIsModalEditOpen(true);
+
+    setIdx(elem.id);
+    setInpEditName(elem.name);
+    setInpEditDes(elem.description);
+  };
+
+  const handleEditOk = () => {
+    if (inpEditName.trim() !== "" && inpEditDes.trim() !== "") {
+      const obj = {
+        id: idx,
+        name: inpEditName.trim(),
+        description: inpEditDes.trim(),
+        complete: false,
+      };
+
+      putData(idx, obj);
+
+      setInpEditDes("");
+      setInpEditName("");
+      setIdx(null);
+
+      setIsModalAddOpen(false);
+    } else {
+      alert("Пополни инпут");
+    }
+  };
+
+  const handleEditCancel = () => {
+    setIsModalEditOpen(false);
+
+    setInpEditDes("");
+    setInpEditName("");
   };
 
   return (
@@ -116,10 +201,18 @@ const App = () => {
                   <Button onClick={() => handleDel(e.id)}>
                     <DeleteOutlined style={{ color: "red" }} />
                   </Button>
-                  <Button style={{ color: "blue " }}>
+                  <Button
+                    onClick={() => showEditModal(e)}
+                    style={{ color: "blue " }}
+                  >
                     <EditOutlined />
                   </Button>
-                  <Checkbox checked={e.complete} />
+                  <Checkbox
+                    onClick={() => {
+                      patchData(e.id, !e.complete);
+                    }}
+                    checked={e.complete}
+                  />
                 </div>
               </div>
             );
@@ -132,13 +225,44 @@ const App = () => {
         open={isModalAddOpen}
         onOk={handleAddOk}
         onCancel={handleAddCancel}
-        transitionName="ant-motion-zoom-fast" // speeds up modal content animation
-        maskTransitionName="ant-motion-fade-fast"
       >
         <div className="flex flex-col gap-2">
-          <Input placeholder="Name" size="medium" />
-          <Input placeholder="Description" size="medium" />
+          <Input
+            value={inpAddName}
+            onChange={(e) => setInpAddName(e.target.value)}
+            placeholder="Name"
+            size="medium"
+          />
+          <Input
+            value={inpAddDes}
+            onChange={(e) => setInpAddDes(e.target.value)}
+            placeholder="Description"
+            size="medium"
+          />
         </div>
+      </Modal>
+
+      {/* editModal */}
+
+      <Modal
+        title="Добавить"
+        closable={{ "aria-label": "Custom Close Button" }}
+        open={isModalEditOpen}
+        onOk={handleEditOk}
+        onCancel={handleEditCancel}
+      >
+        <Input
+          value={inpEditName}
+          onChange={(e) => setInpEditName(e.target.value)}
+          placeholder="Name"
+          size="medium"
+        />
+        <Input
+          value={inpEditDes}
+          onChange={(e) => setInpEditDes(e.target.value)}
+          placeholder="Description"
+          size="medium"
+        />
       </Modal>
     </div>
   );
