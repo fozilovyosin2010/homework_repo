@@ -1,45 +1,28 @@
 {
   "users": [
     {
-      "id": 1,
-      "name": "yosin",
-      "description": "vwirjvoiwev",
-      "complete": true,
-      "obj": false
+      "id": "2",
+      "name": "Anna Smith",
+      "job": "Designer",
+      "status": true,
+      "city": "Khujand",
+      "age": "18"
     },
     {
-      "name": "bmotibt",
-      "description": "beoibe",
-      "complete": false,
-      "id": 1773820664373,
-      "true": ""
+      "id": "7",
+      "name": "Ali",
+      "job": "Game Developer",
+      "status": false,
+      "city": "Dushanbe",
+      "age": "21"
     },
     {
-      "name": "vrovjoierjb",
-      "description": "imorigoierg",
-      "complete": false,
-      "id": 1773820675057
-    },
-    {
-      "name": "wgoiwejgfwoefpowe",
-      "description": "weoifwe",
-      "complete": true,
-      "id": 1773820899654,
-      "obj": true
-    },
-    {
-      "name": "qwfqw",
-      "description": "vwopekvpw",
-      "complete": false,
-      "id": 1773820949114,
-      "obj": true
-    },
-    {
-      "id": 1773829764291,
-      "name": "name",
-      "description": "",
-      "complete": false,
-      "true": ""
+      "id": "1774198925751",
+      "name": "Abubakr",
+      "job": "Gamer",
+      "city": "Kulob",
+      "age": "19",
+      "status": true
     }
   ]
 }
