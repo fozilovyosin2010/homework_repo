@@ -18,11 +18,19 @@
     },
     {
       "id": "1774198925751",
-      "name": "Abubakr",
-      "job": "Gamer",
-      "city": "Kulob",
+      "name": "Yosin",
+      "job": "Worker",
+      "city": "Dushanbe",
       "age": "19",
       "status": true
+    },
+    {
+      "id": "1774256831952",
+      "name": "John",
+      "job": "Bus",
+      "city": "Boston",
+      "age": "30",
+      "status": false
     }
   ]
 }

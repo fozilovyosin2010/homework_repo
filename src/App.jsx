@@ -41,15 +41,16 @@ const App = () => {
 
   const handleStatus = (event) => {
     setStatusFlt(event.target.value);
+    sData(inpS.trim(), event.target.value);
   };
 
   function handleInpS(event) {
     setInpS(event.target.value);
+    sData(event.target.value.trim(), statusFlt);
   }
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
-      //
       backgroundColor: theme.palette.common.black,
       color: theme.palette.common.white,
     },
@@ -120,11 +121,6 @@ const App = () => {
       console.error(error);
     }
   }
-
-  useEffect(() => {
-    sData(inpS.trim(), statusFlt);
-  }, [inpS, statusFlt]);
-
   const [openDel, setOpenDel] = React.useState(false);
 
   // id for delete and edit
@@ -201,7 +197,7 @@ const App = () => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries(formData.entries());
-    postData({ id: Date.now().toString(), ...formJson, status: false });
+    patchData(idx, { ...formJson });
 
     handleCloseEdit();
   };
