@@ -1,1 +1,78 @@
 @import "tailwindcss";
+
+.sec {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.contCardYellow {
+  background: linear-gradient(
+    135deg,
+    rgba(209, 163, 19, 0.133),
+    rgba(209, 163, 19, 0.267)
+  );
+}
+.yellow {
+  border-left: 6px solid rgb(209, 163, 19);
+}
+.contCardBlue {
+  background: linear-gradient(
+    135deg,
+    rgba(89, 167, 188, 0.133),
+    rgba(89, 167, 188, 0.267)
+  );
+}
+.blue {
+  border-left: 6px solid rgb(89, 167, 188);
+}
+.contCardBlueSky {
+  background: linear-gradient(
+    135deg,
+    rgba(93, 186, 255, 0.133),
+    rgba(93, 186, 255, 0.267)
+  );
+}
+.blueSky {
+  border-left: 6px solid rgb(93, 186, 255);
+}
+.contCardGreen {
+  background: linear-gradient(
+    135deg,
+    rgba(109, 172, 6, 0.133),
+    rgba(109, 172, 6, 0.267)
+  );
+}
+.green {
+  border-left: 6px solid rgb(109, 172, 6);
+}
+
+.contCardGreenSky {
+  background: linear-gradient(
+    135deg,
+    rgba(33, 180, 159, 0.133),
+    rgba(33, 180, 159, 0.267)
+  );
+}
+.greenSky {
+  border-left: 6px solid rgb(33, 180, 159);
+}
+.contCardPurple {
+  background: linear-gradient(
+    135deg,
+    rgba(154, 81, 150, 0.133),
+    rgba(154, 81, 150, 0.267)
+  );
+}
+.purple {
+  border-left: 6px solid rgb(154, 81, 150);
+}
+.contCardRed {
+  background: linear-gradient(
+    135deg,
+    rgba(228, 77, 38, 0.133),
+    rgba(228, 77, 38, 0.267)
+  );
+}
+.red {
+  border-left: 6px solid rgb(228, 77, 38);
+}
