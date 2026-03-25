@@ -11,7 +11,9 @@ import kidsIcon from "../img/kidsIcon.png";
 import mobileIcon from "../img/mobileIcon.png";
 import pythonIcon from "../img/pythonIcon.png";
 import reactIcon from "../img/reactIcon.png";
+import Accordion from "../Component/Accordion";
 
+import walletIcon from "../img/wallet.webp";
 const CourseId = () => {
   const { id } = useParams();
 
@@ -429,7 +431,7 @@ const CourseId = () => {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          class="lucide lucide-list"
+          className="lucide lucide-list"
         >
           <path d="M3 12h.01"></path>
           <path d="M3 18h.01"></path>
@@ -453,7 +455,6 @@ const CourseId = () => {
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          class="lucide lucide-users"
         >
           <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
           <circle cx="9" cy="7" r="4"></circle>
@@ -464,8 +465,60 @@ const CourseId = () => {
     },
   ];
 
+  const cardList = [
+    {
+      children: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          class="lucide lucide-cpu w-10 h-10"
+        >
+          <rect width="16" height="16" x="4" y="4" rx="2"></rect>
+          <rect width="6" height="6" x="9" y="9" rx="1"></rect>
+          <path d="M15 2v2"></path>
+          <path d="M15 20v2"></path>
+          <path d="M2 15h2"></path>
+          <path d="M2 9h2"></path>
+          <path d="M20 15h2"></path>
+          <path d="M20 9h2"></path>
+          <path d="M9 2v2"></path>
+          <path d="M9 20v2"></path>
+        </svg>
+      ),
+      title: "Intel Core i5 (10-го поколения)",
+      des,
+    },
+    {
+      children: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lucide lucide-monitor w-10 h-10"
+        >
+          <rect width="20" height="14" x="2" y="3" rx="2"></rect>
+          <line x1="8" x2="16" y1="21" y2="21"></line>
+          <line x1="12" x2="12" y1="17" y2="21"></line>
+        </svg>
+      ),
+    },
+  ];
+
   return (
-    <div className="bg-[#f3f4f6]">
+    <div className="bg-[#f3f4f6] px-[20px]">
       <div className="sec">
         <nav className="flex gap-1 items-center p-[10px]">
           <Link to={"/"} className="font-[400] text-[#333232]">
@@ -510,19 +563,22 @@ const CourseId = () => {
           </div>
           <img src={searchId.image} className="block2" />
         </div>
-        <div className="container2">
+        <div className="container2 flex flex-col gap-[40px]">
           <div className="flex flex-col gap-[30px]">
             <div className="flex justify-between gap-[15px]">
-              {btnList.map((e) => {
+              {btnList.map((e, i) => {
                 return (
-                  <div className="flex w-full p-[15px_30px] rounded-[20px] shadow-[2px_2px_8px_#ccc] gap-3 bg-[#fff]">
+                  <div
+                    key={i}
+                    className="flex w-full p-[15px_30px] rounded-[20px] shadow-[2px_2px_8px_#ccc] gap-3 bg-[#fff]"
+                  >
                     <div className="text-[#0EA5E9]">{e.children}</div>
                     <span>{e.text}</span>
                   </div>
                 );
               })}
             </div>
-            <div className="flex gap-[20px]">
+            <div className="flex gap-[20px] px-[40px]">
               <div className="flex p-[15px_30px] rounded-[20px] shadow-[2px_2px_8px_#ccc] gap-[20px] bg-[#fff] w-full justify-center">
                 <div>8 seats left</div>
 
@@ -569,7 +625,59 @@ const CourseId = () => {
               </div>
             </div>
           </div>
+          <div className="flex flex-col bg-[#fff] rounded-[20px] p-[20px_40px] gap-[40px]">
+            <div className="text-[30px] font-[700]">Why {searchId.title}?</div>
+            <div className="text-[18px] font-[400]">{searchId.contextWhy}</div>
+          </div>
+        </div>
+
+        <div className="container3 flex justify-between items-center mt-[40px] bg-[#fff] rounded-[20px] p-[20px_40px]">
+          <img src={walletIcon} className="w-[256px]" />
+          <div>
+            <div className="text-[40px] text-[#0EA5E9] font-[700]">
+              Average salaries in IT professions
+            </div>
+            <div className="relative">
+              <div className="flex justify-between">
+                <div className="text-[18px] text-gray-600">
+                  <div className="px-[10px] bg-[#fff] z-20 relative">
+                    Junior
+                  </div>
+                  <span className="text-[#0EA5E9] font-[600]">250$</span>
+                </div>
+                <div className="text-[18px] text-gray-600">
+                  <div className="px-[10px] bg-[#fff] z-20 relative">
+                    Middle
+                  </div>
+                  <span className="text-[#0EA5E9] font-[600]">600$</span>
+                </div>
+                <div className="text-[18px] text-gray-600">
+                  <div className="px-[10px] bg-[#fff] z-20 relative">
+                    Senior
+                  </div>
+                  <span className="text-[#0EA5E9] font-[600]">1500$</span>
+                </div>
+              </div>
+              <div className="w-full absolute left-0 h-[2px] bg-gray-400 top-[15px] z-0"></div>
+            </div>
+          </div>
+        </div>
+        <div className="container4 mt-[40px]">
+          <div className="text-[35px] font-[700] flex justify-center gap-3">
+            <span className="text-[#0EA5E9]">Minimum </span>required{" "}
+            <span className="text-[#0EA5E9]"> laptop </span> for thecourse
+          </div>
           <div></div>
+        </div>
+        <div className="container py-[40px] ">
+          <div className="flex justify-center font-[700] text-[35px] py-[40px]">
+            Course program
+          </div>
+          <div className="flex flex-col gap-4">
+            {searchId.program.map((e) => {
+              return <Accordion {...e} />;
+            })}
+          </div>
         </div>
       </div>
     </div>

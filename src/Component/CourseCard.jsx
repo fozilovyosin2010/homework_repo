@@ -54,14 +54,13 @@ const CourseCard = ({
             stroke="currentColor"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
-            class="jsx-dcada180a3e41ef6 w-5 h-5 md:w-6 md:h-6"
+            className="w-5 h-5 md:w-6 md:h-6"
           >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="2"
               d="M14 5l7 7m0 0l-7 7m7-7H3"
-              class="jsx-dcada180a3e41ef6"
             ></path>
           </svg>
         </div>
