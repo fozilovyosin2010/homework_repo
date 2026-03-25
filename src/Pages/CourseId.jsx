@@ -12,8 +12,11 @@ import mobileIcon from "../img/mobileIcon.png";
 import pythonIcon from "../img/pythonIcon.png";
 import reactIcon from "../img/reactIcon.png";
 import Accordion from "../Component/Accordion";
-
 import walletIcon from "../img/wallet.webp";
+
+import lapTop from "../img/lapTopImg.png";
+import ReqCard from "../Component/ReqCard";
+import cerTif from "../img/certificationImg.png";
 const CourseId = () => {
   const { id } = useParams();
 
@@ -493,7 +496,7 @@ const CourseId = () => {
         </svg>
       ),
       title: "Intel Core i5 (10-го поколения)",
-      des,
+      des: "Processor",
     },
     {
       children: (
@@ -514,6 +517,59 @@ const CourseId = () => {
           <line x1="12" x2="12" y1="17" y2="21"></line>
         </svg>
       ),
+      title: "Windows 10, 64-бит",
+      des: "Operating System",
+    },
+    {
+      children: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="w-10 h-10"
+        >
+          <path d="M6 19v-3"></path>
+          <path d="M10 19v-3"></path>
+          <path d="M14 19v-3"></path>
+          <path d="M18 19v-3"></path>
+          <path d="M8 11V9"></path>
+          <path d="M16 11V9"></path>
+          <path d="M12 11V9"></path>
+          <path d="M2 15h20"></path>
+          <path d="M2 7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v1.1a2 2 0 0 0 0 3.837V17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-5.1a2 2 0 0 0 0-3.837Z"></path>
+        </svg>
+      ),
+      title: "8ГБ",
+      des: "Random Access Memory (RAM)",
+    },
+    {
+      children: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="w-10 h-10"
+        >
+          <line x1="22" x2="2" y1="12" y2="12"></line>
+          <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"></path>
+          <line x1="6" x2="6.01" y1="16" y2="16"></line>
+          <line x1="10" x2="10.01" y1="16" y2="16"></line>
+        </svg>
+      ),
+      title: "SSD 256 ГБ или HDD 512 ГБ",
+      des: "Storage",
     },
   ];
 
@@ -662,14 +718,23 @@ const CourseId = () => {
             </div>
           </div>
         </div>
-        <div className="container4 mt-[40px]">
-          <div className="text-[35px] font-[700] flex justify-center gap-3">
+        <div className="container4 mt-[40px">
+          <div className="text-[35px] font-[700] mb-[40px] flex justify-center gap-3">
             <span className="text-[#0EA5E9]">Minimum </span>required{" "}
             <span className="text-[#0EA5E9]"> laptop </span> for thecourse
           </div>
-          <div></div>
+          <div className="flex justify-between gap-[30px]">
+            <div className="w-full bg-[#fff] p-[10px_20px] rounded-[15px]">
+              <img src={lapTop} className="w-[300px]" alt="" />
+            </div>
+            <div className="w-full grid grid-cols-2 gap-[30px]">
+              {cardList.map((e) => {
+                return <ReqCard {...e} />;
+              })}
+            </div>
+          </div>
         </div>
-        <div className="container py-[40px] ">
+        <div className="container5 py-[40px] ">
           <div className="flex justify-center font-[700] text-[35px] py-[40px]">
             Course program
           </div>
@@ -678,6 +743,30 @@ const CourseId = () => {
               return <Accordion {...e} />;
             })}
           </div>
+        </div>
+        <div className="container6 flex justify-between items-center bg-[#E2E8F0] rounded-[15px] p-[20px_40px]">
+          <div className="block1 flex flex-col gap-[30px] items-start">
+            <div className="text-[#0EA5E9] text-[25px] font-medium">
+              Softclub Certificate
+            </div>
+            <div className="text-[16px] font-[500]">
+              Will confirm that you have completed the course and help you find
+              a job
+            </div>
+            <button className="relative border-blue-400 p-[12px_32px] rounded-[20px] border flex">
+              <span className="mr-3">Sign up for a cource</span>
+              <svg
+                className="arr-1 absolute transition-all duration-800"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                style={{ right: "16px", fill: "rgb(57, 160, 204)" }}
+              >
+                <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"></path>
+              </svg>
+            </button>
+          </div>
+          <img src={cerTif} className="w-[455px]" />
         </div>
       </div>
     </div>
