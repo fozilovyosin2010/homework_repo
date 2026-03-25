@@ -17,117 +17,117 @@ const Home = () => {
 
   const [fltr, setFltr] = useState("All");
 
-  function handleClickTab(text) {
-    setFltr(text);
-  }
-
-  const courseList = [
+  const [courses, setCourses] = useState([
     {
-      id: 1,
+      id: "1",
       back: "contCardRed ",
       border: "red",
       header: "HTML & CSS",
       img: htmlCssIcon,
       text: "Learn the building blocks of the web",
       duration: "1 month",
-      type: "Frontend",
+      type: ["Frontend"],
     },
     {
-      id: 2,
+      id: "2",
       back: "contCardYellow ",
       border: "yellow",
       header: "JavaScript",
       img: jsIcon,
       text: "Master programming fundamentals with JavaScript",
       duration: "2 months",
-      type: "Frontend",
+      type: ["Frontend"],
     },
     {
-      id: 3,
+      id: "3",
       back: "contCardBlue ",
       border: "blue",
       header: "React",
       img: reactIcon,
       text: "Build interactive UIs with the popular JavaScript library",
       duration: "3 months",
-      type: "Frontend",
+      type: ["Frontend"],
     },
     {
-      id: 4,
+      id: "4",
       back: "contCardGreen ",
       border: "green",
       header: "Design",
       img: figmaIcon,
       text: "Create beautiful, functional digital experiences",
       duration: "4 months",
-      type: "Design",
+      type: ["Design"],
     },
     {
-      id: 5,
+      id: "5",
       back: "contCardBlueSky ",
       border: "blueSky",
       header: "Basics of C++",
       img: cppIcon,
       text: "Start your programming journey with C++",
       duration: "1 month",
-      type: "Backend",
+      type: ["Backend"],
     },
     {
-      id: 6,
+      id: "6",
       back: "contCardGreenSky ",
       border: "greenSky",
       header: "Python",
       img: pythonIcon,
       text: "Learn one of the most versatile programming languages",
       duration: "4 months",
-      type: "Backend",
+      type: ["Backend"],
     },
     {
-      id: 7,
+      id: "7",
       back: "contCardPurple ",
       border: "purple",
       header: "C#",
       img: cIcon,
       text: "Build versatile applications with this powerful language",
       duration: "3 months",
-      type: "Backend",
+      type: ["Backend"],
     },
     {
-      id: 8,
+      id: "8",
       back: "contCardRed ",
       border: "red",
       header: "Git",
       img: gitIcon,
       text: "Master version control to collaborate on coding",
       duration: "1 month",
-      type: "Frontend",
+      type: ["Frontend", "Backend"],
     },
     {
-      id: 9,
+      id: "9",
       back: "contCardBlueSky ",
       border: "blueSky",
       header: "Flutter",
       img: mobileIcon,
       text: "Build cross-platform mobile apps with a single codebase",
       duration: "4 months",
-      type: "Mobile",
+      type: ["Mobile"],
     },
     {
-      id: 10,
+      id: "10",
       back: "contCardBlue ",
       border: "blue",
       header: "Programming for teenagers",
       img: kidsIcon,
       text: "Programming fundamentals for young learners",
       duration: "10 months",
-      type: "Kids",
+      type: ["Kids"],
     },
-  ];
+  ]);
 
   const [showM, setShowM] = useState(false);
 
   function handleClickShow() {
     setShowM((e) => !e);
+  }
+
+  function handleClickTab(text) {
+    setFltr(text);
   }
   return (
     <div className="bg-[#152446] text-[#fff] font-bold">
@@ -153,41 +153,48 @@ const Home = () => {
           })}
         </div>
         <div className="container2">
-          <div className="grid grid-cols-3 gap-[25px] p-[10px_20px]">
-            {courseList.map((e, i) => {
-              return showM ? (
-                <CourseCard key={i} {...e} />
-              ) : !showM && i < 6 ? (
-                <CourseCard key={i} {...e} />
-              ) : null;
-            })}
+          <div className="grid grid-cols-3 gap-[25px] p-[20px_30px]">
+            {courses
+              .filter((e) => (fltr !== "All" ? e.type.includes(fltr) : e))
+              .map((e, i) => {
+                return showM ? (
+                  <CourseCard key={i} {...e} />
+                ) : !showM && i < 6 ? (
+                  <CourseCard key={i} {...e} />
+                ) : null;
+              })}
           </div>
-          <div className="flex justify-center py-[20px]">
-            <button
-              onClick={handleClickShow}
-              className="bg-[#304983] p-[5px_10px] font-[600] border border-gray-400 rounded-[50px] flex items-center gap-2 p-[8px_32px]"
-            >
-              <span>Show {showM ? "Less" : "All (4 more)"}</span>
-              <div
-                className={`${showM ? "rotate-[0deg]" : "rotate-[180deg]"} duration-300`}
+
+          {/* show more btn */}
+          {courses.filter((e) => (fltr !== "All" ? e.type.includes(fltr) : e))
+            .length > 4 ? (
+            <div className="flex justify-center py-[20px]">
+              <button
+                onClick={handleClickShow}
+                className="bg-[#304983] p-[5px_10px] font-[600] border border-gray-400 rounded-[50px] flex items-center gap-2 p-[8px_32px]"
               >
-                <svg
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  className="jsx-dcada180a3e41ef6 w-4 h-4 transition-transform duration-300 "
+                <span>Show {showM ? "Less" : "All (4 more)"}</span>
+                <div
+                  className={`${showM ? "rotate-[0deg]" : "rotate-[180deg]"} duration-300`}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 9l-7 7-7-7"
-                    className="jsx-dcada180a3e41ef6"
-                  ></path>
-                </svg>
-              </div>
-            </button>
-          </div>
+                  <svg
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    className="jsx-dcada180a3e41ef6 w-4 h-4 transition-transform duration-300 "
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                      className="jsx-dcada180a3e41ef6"
+                    ></path>
+                  </svg>
+                </div>
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>

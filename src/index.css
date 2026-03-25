@@ -5,6 +5,16 @@
   margin: 0 auto;
 }
 
+.card .block2 {
+  overflow-x: hidden;
+  transform: translateX(300%);
+}
+.card:hover .block2 {
+  display: block;
+  transition: 0.3s;
+  transform: scale(1);
+}
+
 .contCardYellow {
   background: linear-gradient(
     135deg,
