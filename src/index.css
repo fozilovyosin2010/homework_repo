@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+.open-sans {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
+}
+
+.txt {
+  font-size: 20px;
+  font-weight: 400;
+  color: #555555;
+}
