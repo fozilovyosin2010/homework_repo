@@ -71,7 +71,7 @@ const Home = () => {
         <div className="block2 rounded-tr-[50px]">
           <img src={house} />
         </div>
-        <div className="absolute left-[70px] max-w-[1000px] w-full bottom-[10px] rounded-[50px] shadow-[2px_2px_8px_#ccc] m-[20px_40px] bg-[#fff] p-[20px_40px]">
+        <div className="absolute left-[70px] max-w-[calc(100%-200px)] w-full bottom-[10px] rounded-[50px] shadow-[2px_2px_8px_#ccc] m-[20px_40px] bg-[#fff] p-[20px_40px]">
           <div className="flex justify-between">
             {inpList.map((e, i) => {
               return <InpBox key={i} {...e} />;
