@@ -20,6 +20,16 @@ import wifiIcon from "../img/wifiIcon.png";
 
 import Card from "../Components/Card";
 import Container from "../Components/Container";
+import ContainerDis from "../Components/ContainerDis";
+import person from "../img/personProf.png";
+
+import { Navigation } from "swiper/modules";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
 
 const Home = () => {
   const inpList = [
@@ -42,7 +52,7 @@ const Home = () => {
 
   return (
     <div>
-      <div className="container1 bg-[#24AB700A] py-[40px] rounded-[50px] flex items-center gap-[30px] relative">
+      <div className="container1 bg-[#24AB700A] pl-[40px] pt-[40px] rounded-[50px] flex items-center gap-[30px] relative">
         <div className="block1 flex flex-col gap-[30px] pb-[80px]">
           <div className="text-[64px] font-[600] max-w-[600px]">
             Find your perfect place to stay
@@ -88,6 +98,82 @@ const Home = () => {
             return <Card key={i} {...e} />;
           })}
         </div>
+      </div>
+      <ContainerDis />
+      <div className="container5 my-[60px]">
+        <Swiper
+          loop={true}
+          navigation={true}
+          modules={[Navigation]}
+          className="mySwiper"
+        >
+          <SwiperSlide className="flex items-center">
+            <div className="bg-[#FAFAFA] rounded-[20px] flex items-center justify-between">
+              <div className="p-[30px_60px] rounded-[20px] flex flex-col justify-between gap-[30px]">
+                <div className="max-w-[628px] txt2 text-[16px]">
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy Lorem Ipsum is simply dummy text of the
+                  printing and typesetting industry. Lorem Ipsum is simply dummy
+                  text of the printing and typesetting industry. Lorem Ipsum has
+                  been the industry's standard dummy Lorem Ipsum is simply dummy
+                  text of the printing and typesetting industry.
+                </div>
+                <div>
+                  <div className="font-[600] text-[24px]">
+                    Alexandr Ivchenko
+                  </div>
+                  <div className="txt2 text-[16px]">Businessman</div>
+                </div>
+              </div>
+              <img src={person} className="rounded-r-[20px]" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="bg-[#FAFAFA] rounded-[20px] flex justify-between">
+              <div className="p-[30px_60px] rounded-[20px] flex flex-col gap-[40px]">
+                <div className="max-w-[628px] txt2 text-[16px]">
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy Lorem Ipsum is simply dummy text of the
+                  printing and typesetting industry. Lorem Ipsum is simply dummy
+                  text of the printing and typesetting industry. Lorem Ipsum has
+                  been the industry's standard dummy Lorem Ipsum is simply dummy
+                  text of the printing and typesetting industry.
+                </div>
+                <div>
+                  <div className="font-[600] text-[24px]">
+                    Alexandr Ivchenko
+                  </div>
+                  <div className="txt2 text-[16px]">Businessman</div>
+                </div>
+              </div>
+              <img src={person} className="rounded-r-[20px]" />
+            </div>
+          </SwiperSlide>
+          <SwiperSlide>
+            <div className="bg-[#FAFAFA] rounded-[20px] flex justify-between">
+              <div className="p-[30px_60px] rounded-[20px] flex flex-col gap-[40px]">
+                <div className="max-w-[628px] txt2 text-[16px]">
+                  Lorem Ipsum is simply dummy text of the printing and
+                  typesetting industry. Lorem Ipsum has been the industry's
+                  standard dummy Lorem Ipsum is simply dummy text of the
+                  printing and typesetting industry. Lorem Ipsum is simply dummy
+                  text of the printing and typesetting industry. Lorem Ipsum has
+                  been the industry's standard dummy Lorem Ipsum is simply dummy
+                  text of the printing and typesetting industry.
+                </div>
+                <div>
+                  <div className="font-[600] text-[24px]">
+                    Alexandr Ivchenko
+                  </div>
+                  <div className="txt2 text-[16px]">Businessman</div>
+                </div>
+              </div>
+              <img src={person} className="rounded-r-[20px]" />
+            </div>
+          </SwiperSlide>
+        </Swiper>
       </div>
     </div>
   );

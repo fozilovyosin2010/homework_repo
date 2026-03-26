@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Link, Outlet } from "react-router";
 
 import faceBook from "../img/faceBook.svg";
@@ -8,6 +8,12 @@ import instag from "../img/instag.svg";
 import map from "../img/map.png";
 
 const Layout = () => {
+  const inpContact = useRef();
+  const [focus, setFocus] = useState(false);
+
+  function handleC() {
+    inpContact.current.focus();
+  }
   return (
     <div className="max-w-[1280px] m-[0_auto] open-sans">
       <div className="header flex justify-between p-[10px_20px]">
@@ -17,7 +23,9 @@ const Layout = () => {
           <div>Facilities</div>
           <div>About Us</div>
           <div>Location</div>
-          <div>Contact</div>
+          <div onClick={handleC} className="cursor-pointer">
+            Contact
+          </div>
         </div>
         <button className="bg-[#24AB70] p-[10px_32px] text-[#fff] rounded-[35px] font-[400] text-[14px]">
           Login
@@ -27,7 +35,7 @@ const Layout = () => {
         <Outlet />
       </div>
       <div className="container relative">
-        <div>
+        <div className="flex justify-center items-center">
           <img src={map} className="w-full" />
         </div>
 
@@ -46,6 +54,7 @@ const Layout = () => {
           {/* form */}
           <div className="bg-[#dedcdc] rounded-[35px] relative">
             <input
+              ref={inpContact}
               type="text"
               placeholder="Enter your email"
               className="p-[10px_20px] w-[300px]"
