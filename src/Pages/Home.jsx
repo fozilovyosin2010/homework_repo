@@ -19,6 +19,7 @@ import dotsIcon from "../img/dotsIcon.svg";
 import wifiIcon from "../img/wifiIcon.png";
 
 import Card from "../Components/Card";
+import Container from "../Components/Container";
 
 const Home = () => {
   const inpList = [
@@ -38,6 +39,7 @@ const Home = () => {
     { svg: sport, title: "exercise Space" },
     { svg: dotsIcon, title: "Other Service" },
   ];
+
   return (
     <div>
       <div className="container1 bg-[#24AB700A] py-[40px] rounded-[50px] flex items-center gap-[30px] relative">
@@ -67,18 +69,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="container2 flex justify-between items-end py-[40px]">
-        <div className="block1">
-          <div className="text-[40px] font-[600]">Our most popular Hotels</div>
-          <div className="txt2 max-w-[409px]">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry.
-          </div>
-        </div>
-        <div className="block2 text-[#24AB70] p-[6px_26px] rounded-[100px] bg-[#24AB701A]">
-          View All
-        </div>
-      </div>
+      <Container />
       <div className="container3 flex justify-between items-center py-[40px]">
         <div className="block1 flex flex-col gap-[30px] items-start ">
           <div className="max-w-[411px] text-[40px] font-[600]">
