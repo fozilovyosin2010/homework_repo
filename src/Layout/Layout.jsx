@@ -17,7 +17,9 @@ const Layout = () => {
   return (
     <div className="max-w-[1280px] m-[0_auto] open-sans">
       <div className="header flex justify-between p-[10px_20px]">
-        <div>logo</div>
+        <Link to={"/"} className="cursor-pointer hover:underline">
+          logo
+        </Link>
         <div className="flex gap-3">
           <Link to={"catalog"}>Booking</Link>
           <div>Facilities</div>
@@ -57,7 +59,7 @@ const Layout = () => {
               ref={inpContact}
               type="text"
               placeholder="Enter your email"
-              className="p-[10px_20px] w-[300px]"
+              className="p-[10px_20px] outline-none w-[300px]"
             />
             <button className="absolute top-0 bottom-0 right-0 bg-[#24AB70] p-[10px_32px] text-[#fff] rounded-[35px] font-[400] text-[14px]">
               Contanct
