@@ -1,7 +1,10 @@
 import axios from "axios";
+
 import React, { useEffect, useState } from "react";
+
 import Card from "./Component/Card";
-import { Button, Input, Modal, Pagination, Select, Tooltip } from "antd";
+
+import { Button, Form, Input, Modal, Select, Tooltip } from "antd";
 
 import {
   DownOutlined,
@@ -38,6 +41,24 @@ const App = () => {
     }
   };
 
+  const delData = async (id) => {
+    try {
+      await axios.delete(`${api}?id=${id}`);
+      getData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const putData = async (obj) => {
+    try {
+      await axios.put(api, obj);
+      getData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     getData();
   }, []);
@@ -66,47 +87,98 @@ const App = () => {
     setAddItemsHide(e);
   };
 
-  const [inpS, setInpS] = useState("");
-
-  function handleInpS(e) {
-    setInpS(e.target.value);
+  function handleSubmitAdd(val) {
+    postData(val);
+    formDataAdd.resetFields();
   }
 
-  function handleAdd() {
-    if (inpS.trim() !== "") {
-      const obj = {
-        name: inpS.trim(),
-      };
-      postData(obj);
-      setInpS("");
-    }
+  const [formDataAdd] = Form.useForm();
+
+  // get info modal
+
+  const [openInfo, setOpenInfo] = useState(false);
+
+  // obj for InfoModal
+  const [objMod, setObjMod] = useState(null);
+
+  const showModalInfo = (elem) => {
+    setOpenInfo(true);
+
+    setObjMod(elem);
+  };
+  const handleOkInfo = () => {
+    setOpenInfo(false);
+    setObjMod(null);
+  };
+  const handleCancelInfo = () => {
+    setOpenInfo(false);
+    setObjMod(null);
+  };
+
+  // edit modal
+
+  const [formData] = Form.useForm();
+  const [openEdit, setOpenEdit] = useState(false);
+  const [idxEdit, setIdxEdit] = useState(null);
+
+  const handleSubmitEdit = (values) => {
+    const obj = { id: idxEdit, ...values };
+
+    putData(obj);
+
+    setOpenEdit(false);
+    setIdxEdit(null);
+  };
+
+  function handleOpenEdit(obj) {
+    formData.setFieldsValue({ name: obj.name });
+    setIdxEdit(obj.id);
+
+    setOpenEdit(true);
+  }
+  function handleCloseEdit() {
+    setOpenEdit(false);
+
+    setIdxEdit(null);
   }
 
   return (
-    <div className="max-w-[1400px] m-[0_auto]">
-      <div className="header p-[10px]">
-        <div className="flex gap-3">
-          <Input
-            placeholder="Enter your username"
-            onChange={handleInpS}
-            value={inpS}
-            style={{ maxWidth: "400px" }}
-            prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
-            suffix={
-              <Tooltip title="Extra information">
-                <InfoCircleOutlined style={{ color: "rgba(0,0,0,.45)" }} />
-              </Tooltip>
-            }
-          />
-          <Button onClick={handleAdd} type="primary">
+    <div className="max-w-[1400px] m-[0_auto] px-[20px]">
+      <div className="header border-b py-[10px]">
+        <Form
+          form={formDataAdd}
+          onFinish={handleSubmitAdd}
+          className="flex gap-3"
+        >
+          <Form.Item
+            name="name"
+            rules={[
+              {
+                required: true,
+                message: "Please input the name of collection!",
+              },
+            ]}
+          >
+            <Input placeholder="add name " />
+          </Form.Item>
+          <Button htmlType="submit" type="primary">
             Add
           </Button>
-        </div>
+        </Form>
       </div>
-      <div>
-        <div className="grid grid-cols-3 gap-[40px] p-[10px_20px]">
-          {data.map((e, i) => {
-            return <Card key={e.id} {...e} getReg={getData} />;
+      <div className="content flex flex-col gap-[30px]">
+        <div className="grid grid-cols-3 gap-[40px] py-[10px]">
+          {data.map((elem, i) => {
+            return (
+              <Card
+                key={elem.id}
+                {...elem}
+                getReg={getData}
+                handleDelBtn={() => delData(elem.id)}
+                handleInfoBtn={() => showModalInfo(elem)}
+                handleEditBtn={() => handleOpenEdit(elem)}
+              />
+            );
           })}
         </div>
         <div className="flex justify-center gap-[40px] py-[30px]">
@@ -142,6 +214,56 @@ const App = () => {
           </div>
         </div>
       </div>
+      {/* get info modal */}
+      <Modal
+        open={openInfo}
+        title="Info"
+        onOk={handleOkInfo}
+        onCancel={handleCancelInfo}
+        footer={(_, { OkBtn, CancelBtn }) => (
+          <>
+            {/* <Button>Custom Button</Button> */}
+            <CancelBtn />
+            <OkBtn />
+          </>
+        )}
+      >
+        <Card {...objMod} disabled={true} />
+      </Modal>
+      {/* edit modal */}
+      <Modal
+        open={openEdit}
+        title="Edit a user"
+        okText="Edit"
+        cancelText="Cancel"
+        okButtonProps={{ autoFocus: true, htmlType: "submit" }}
+        onCancel={handleCloseEdit}
+        // destroyOnHidden
+        modalRender={(dom) => (
+          <Form
+            layout="vertical"
+            form={formData}
+            name="form_in_modal"
+            clearOnDestroy
+            onFinish={handleSubmitEdit}
+          >
+            {dom}
+          </Form>
+        )}
+      >
+        <Form.Item
+          name="name"
+          label="Name"
+          rules={[
+            {
+              required: true,
+              message: "Please input the name of collection!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+      </Modal>
     </div>
   );
 };

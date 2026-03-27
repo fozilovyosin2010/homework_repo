@@ -5,30 +5,28 @@ import {
   EditOutlined,
   InfoCircleTwoTone,
 } from "@ant-design/icons";
-import { Avatar, Button, Card, Flex, Switch } from "antd";
+
+import { Avatar, Button, Card } from "antd";
 
 import axios from "axios";
 
-const CardProf = ({ id, name, getReg }) => {
-  const api = "http://37.27.29.18:8001/api/categories";
-
-  const delData = async (id) => {
-    try {
-      await axios.delete(`${api}?id=${id}`);
-      getReg();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+const CardProf = ({
+  id,
+  name,
+  getReg,
+  handleInfoBtn,
+  handleEditBtn,
+  handleDelBtn,
+  disabled,
+}) => {
   const actions = [
-    <Button type="link">
+    <Button disabled={disabled} onClick={handleEditBtn} type="link">
       <EditOutlined style={{ color: "blue" }} key="edit" />
     </Button>,
-    <Button onClick={() => delData(id)} type="link">
+    <Button disabled={disabled} onClick={handleDelBtn} type="link">
       <DeleteOutlined style={{ color: "red" }} key="setting" />
     </Button>,
-    <Button type="link">
+    <Button disabled={disabled} onClick={handleInfoBtn} type="link">
       <InfoCircleTwoTone key="info" />
     </Button>,
   ];
