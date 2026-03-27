@@ -131,10 +131,13 @@ const App = () => {
   };
 
   function handleOpenEdit(obj) {
-    formData.setFieldsValue({ name: obj.name });
+    setOpenEdit(true);
+
     setIdxEdit(obj.id);
 
-    setOpenEdit(true);
+    setTimeout(() => {
+      formData.setFieldsValue({ name: obj.name });
+    }, 0);
   }
   function handleCloseEdit() {
     setOpenEdit(false);
