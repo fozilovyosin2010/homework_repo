@@ -7,7 +7,14 @@ import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
 
-const Menu = ({ btnDel, btnChecked }) => {
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import VerifiedIcon from "@mui/icons-material/Verified";
+
+import { IconButton } from "@mui/material";
+
+const Menu = ({ btnDel, btnChecked, btnEdit }) => {
   const [open, setOpen] = React.useState(false);
 
   const handleToggle = () => {
@@ -45,7 +52,7 @@ const Menu = ({ btnDel, btnChecked }) => {
 
   return (
     <div>
-      <Button
+      <IconButton
         ref={anchorRef}
         id="composition-button"
         aria-controls={open ? "composition-menu" : undefined}
@@ -53,8 +60,8 @@ const Menu = ({ btnDel, btnChecked }) => {
         aria-haspopup="true"
         onClick={handleToggle}
       >
-        Dashboard
-      </Button>
+        <MoreVertIcon />
+      </IconButton>
 
       <Popper
         open={open}
@@ -63,6 +70,7 @@ const Menu = ({ btnDel, btnChecked }) => {
         placement="bottom-start"
         transition
         disablePortal
+        sx={{ zIndex: 20 }}
       >
         {({ TransitionProps, placement }) => (
           <Grow
@@ -80,9 +88,15 @@ const Menu = ({ btnDel, btnChecked }) => {
                   aria-labelledby="composition-button"
                   onKeyDown={handleListKeyDown}
                 >
-                  <MenuItem onClick={btnDel}>Delete</MenuItem>
-                  <MenuItem onClick={handleClose}>edit</MenuItem>
-                  <MenuItem onClick={btnChecked}>checked</MenuItem>
+                  <MenuItem onClick={btnDel} sx={{ color: "red" }}>
+                    <DeleteIcon />
+                  </MenuItem>
+                  <MenuItem onClick={btnEdit} sx={{ color: "green" }}>
+                    <EditIcon />
+                  </MenuItem>
+                  <MenuItem onClick={btnChecked}>
+                    <VerifiedIcon />
+                  </MenuItem>
                 </MenuList>
               </ClickAwayListener>
             </Paper>
