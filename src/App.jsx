@@ -1,41 +1,26 @@
 import axios from "axios";
-
 import React, { useEffect, useState } from "react";
 
-import Card from "./Component/Card";
-
-import { Button, Form, Input, Modal, Select, Tooltip } from "antd";
-
-import {
-  DownOutlined,
-  InfoCircleOutlined,
-  UpOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
+import { styled } from "@mui/material/styles";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import Menu from "./Component/Menu";
 
 const App = () => {
-  const api = "http://37.27.29.18:8001/api/categories";
+  const api = "http://37.27.29.18:8001";
+  const apiImages = "http://37.27.29.18:8001/images";
 
   const [users, setUsers] = useState([]);
 
-  const [load, setLoad] = useState(true);
-
   const getData = async () => {
     try {
-      setLoad(true);
-      let { data } = await axios.get(api);
-      setUsers(data.data.toReversed());
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoad(false);
-    }
-  };
-
-  const postData = async (obj) => {
-    try {
-      await axios.post(api, obj);
-      getData();
+      const { data } = await axios.get(`${api}/api/to-dos`);
+      setUsers(data.data);
     } catch (error) {
       console.error(error);
     }
@@ -43,16 +28,24 @@ const App = () => {
 
   const delData = async (id) => {
     try {
-      await axios.delete(`${api}?id=${id}`);
+      await axios.delete(`${api}/api/to-dos?id=${id}`);
+      getData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const postData = async (obj) => {
+    try {
+      await axios.post(`${api}/api/to-dos`, obj);
       getData();
     } catch (error) {
       console.error(error);
     }
   };
 
-  const putData = async (obj) => {
+  const checkedData = async (id) => {
     try {
-      await axios.put(api, obj);
+      await axios.put(`${api}/completed?id=${id}`);
       getData();
     } catch (error) {
       console.error(error);
@@ -63,210 +56,112 @@ const App = () => {
     getData();
   }, []);
 
-  const [pag, setPag] = useState(6);
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
 
-  const [addItemsShow, setAddItemsShow] = useState(3);
-  const [addItemsHide, setAddItemsHide] = useState(3);
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    "&:last-child td, &:last-child th": {
+      border: 0,
+    },
+  }));
 
-  const data = users.slice(0, pag);
-
-  const handlePagShow = (e) => {
-    if (data.length + addItemsHide > data.length) {
-      setPag((e) => e + addItemsShow);
-    }
-  };
-  const handlePagHide = (e) => {
-    if (data.length - addItemsHide > 0) {
-      setPag((e) => e - addItemsHide);
-    }
-  };
-  const handleChangeShowNum = (e) => {
-    setAddItemsShow(e);
-  };
-  const handleChangeHideNum = (e) => {
-    setAddItemsHide(e);
-  };
-
-  function handleSubmitAdd(val) {
-    postData(val);
-    formDataAdd.resetFields();
+  // for menu
+  function handleBtnDel(id) {
+    delData(id);
   }
 
-  const [formDataAdd] = Form.useForm();
-
-  // get info modal
-
-  const [openInfo, setOpenInfo] = useState(false);
-
-  // obj for InfoModal
-  const [objMod, setObjMod] = useState(null);
-
-  const showModalInfo = (elem) => {
-    setOpenInfo(true);
-
-    setObjMod(elem);
-  };
-  const handleOkInfo = () => {
-    setOpenInfo(false);
-    setObjMod(null);
-  };
-  const handleCancelInfo = () => {
-    setOpenInfo(false);
-    setObjMod(null);
-  };
-
-  // edit modal
-
-  const [formData] = Form.useForm();
-  const [openEdit, setOpenEdit] = useState(false);
-  const [idxEdit, setIdxEdit] = useState(null);
-
-  const handleSubmitEdit = (values) => {
-    const obj = { id: idxEdit, ...values };
-
-    putData(obj);
-
-    setOpenEdit(false);
-    setIdxEdit(null);
-  };
-
-  function handleOpenEdit(obj) {
-    setOpenEdit(true);
-
-    setIdxEdit(obj.id);
-
-    setTimeout(() => {
-      formData.setFieldsValue({ name: obj.name });
-    }, 0);
+  function handleBtnChecked(id) {
+    checkedData(id);
   }
-  function handleCloseEdit() {
-    setOpenEdit(false);
 
-    setIdxEdit(null);
+  function handleAddSubmit(e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append("Images", e.target["images"].files[0]);
+    formData.append("Name", e.target["name"].value.trim());
+    formData.append("Description", e.target["description"].value.trim());
+
+    postData(formData);
   }
 
   return (
-    <div className="max-w-[1400px] m-[0_auto] px-[20px]">
-      <div className="header border-b py-[10px]">
-        <Form
-          form={formDataAdd}
-          onFinish={handleSubmitAdd}
-          className="flex gap-3"
-        >
-          <Form.Item
-            name="name"
-            rules={[
-              {
-                required: true,
-                message: "Please input the name of collection!",
-              },
-            ]}
-          >
-            <Input placeholder="add name " />
-          </Form.Item>
-          <Button htmlType="submit" type="primary">
-            Add
-          </Button>
-        </Form>
+    <div>
+      <div className="header">
+        <form action="" onSubmit={handleAddSubmit}>
+          <input required className="border" type="text" name="name" id="" />
+          <input
+            required
+            className="border"
+            type="text"
+            name="description"
+            id=""
+          />
+          <input required className="border" type="file" name="images" id="" />
+          <button className="bg-black text-[#fff]">submit</button>
+        </form>
       </div>
-      <div className="content flex flex-col gap-[30px]">
-        <div className="grid grid-cols-3 gap-[40px] py-[10px]">
-          {data.map((elem, i) => {
-            return (
-              <Card
-                key={elem.id}
-                {...elem}
-                getReg={getData}
-                handleDelBtn={() => delData(elem.id)}
-                handleInfoBtn={() => showModalInfo(elem)}
-                handleEditBtn={() => handleOpenEdit(elem)}
-              />
-            );
-          })}
-        </div>
-        <div className="flex justify-center gap-[40px] py-[30px]">
-          <div className="flex gap-3">
-            <Button onClick={handlePagShow}>
-              Show <DownOutlined />
-            </Button>
-            <Select
-              defaultValue="3"
-              style={{ width: 50 }}
-              onChange={handleChangeShowNum}
-              options={[
-                { value: 1, label: "1" },
-                { value: 2, label: "2" },
-                { value: 3, label: "3" },
-              ]}
-            />
-          </div>
-          <div className="flex gap-3">
-            <Button onClick={handlePagHide}>
-              Hide <UpOutlined />
-            </Button>
-            <Select
-              defaultValue="3"
-              style={{ width: 50 }}
-              onChange={handleChangeHideNum}
-              options={[
-                { value: 1, label: "1" },
-                { value: 2, label: "2" },
-                { value: 3, label: "3" },
-              ]}
-            />
-          </div>
-        </div>
+      <div className="p-[20px]">
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 700 }} aria-label="customized table">
+            <TableHead>
+              <TableRow>
+                <StyledTableCell>Name</StyledTableCell>
+                <StyledTableCell align="right">Description</StyledTableCell>
+                <StyledTableCell align="right">status</StyledTableCell>
+                <StyledTableCell align="right">images</StyledTableCell>
+                <StyledTableCell align="right">options</StyledTableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {users.map((elem) => (
+                <StyledTableRow key={elem.id}>
+                  <StyledTableCell component="th" scope="row">
+                    {elem.name}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {elem.description}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    {elem.isCompleted ? "active" : "inactive"}
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <div className="flex justify-end">
+                      {elem.images.map((img, imgIdx) => {
+                        return (
+                          <img
+                            key={imgIdx}
+                            className="h-[150px] w-[150px]"
+                            src={`${apiImages}/${img.imageName}`}
+                          />
+                        );
+                      })}
+                    </div>
+                  </StyledTableCell>
+                  <StyledTableCell align="right">
+                    <Menu
+                      btnDel={() => handleBtnDel(elem.id)}
+                      btnChecked={() => handleBtnChecked(elem.id)}
+                    />
+                  </StyledTableCell>
+                </StyledTableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
-      {/* get info modal */}
-      <Modal
-        open={openInfo}
-        title="Info"
-        onOk={handleOkInfo}
-        onCancel={handleCancelInfo}
-        footer={(_, { OkBtn, CancelBtn }) => (
-          <>
-            {/* <Button>Custom Button</Button> */}
-            <CancelBtn />
-            <OkBtn />
-          </>
-        )}
-      >
-        <Card {...objMod} disabled={true} />
-      </Modal>
-      {/* edit modal */}
-      <Modal
-        open={openEdit}
-        title="Edit a user"
-        okText="Edit"
-        cancelText="Cancel"
-        okButtonProps={{ autoFocus: true, htmlType: "submit" }}
-        onCancel={handleCloseEdit}
-        // destroyOnHidden
-        modalRender={(dom) => (
-          <Form
-            layout="vertical"
-            form={formData}
-            name="form_in_modal"
-            clearOnDestroy
-            onFinish={handleSubmitEdit}
-          >
-            {dom}
-          </Form>
-        )}
-      >
-        <Form.Item
-          name="name"
-          label="Name"
-          rules={[
-            {
-              required: true,
-              message: "Please input the name of collection!",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-      </Modal>
     </div>
   );
 };
