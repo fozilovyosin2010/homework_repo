@@ -10,7 +10,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Menu from "./Component/Menu";
-import { Button, setRef } from "@mui/material";
+import { Button, IconButton, setRef } from "@mui/material";
 
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -18,6 +18,23 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import CardProf from "./Component/Card";
+
+import "swiper/css";
+import "swiper/css/navigation";
+
+// import required modules
+import { Navigation } from "swiper/modules";
+import { Typography } from "@mui/material";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/navigation";
+
+import DeleteIcon from "@mui/icons-material/Delete";
+import AddIcon from "@mui/icons-material/Add";
 
 const App = () => {
   const api = "http://37.27.29.18:8001";
@@ -28,6 +45,14 @@ const App = () => {
   const getData = async () => {
     try {
       const { data } = await axios.get(`${api}/api/to-dos`);
+      setUsers(data.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getIdData = async (id) => {
+    try {
+      const { data } = await axios.get(`${api}/api/to-dos/${id}`);
       setUsers(data.data);
     } catch (error) {
       console.error(error);
@@ -51,6 +76,16 @@ const App = () => {
       console.error(error);
     }
   };
+
+  const postImgData = async (id, obj) => {
+    try {
+      await axios.post(`${api}/api/to-dos/${id}/images`, obj);
+      getData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const putData = async (obj) => {
     try {
       await axios.put(`${api}/api/to-dos`, obj);
@@ -162,6 +197,43 @@ const App = () => {
     setOpenEdit(false);
   };
 
+  // for info modal
+  const [openInfo, setOpenInfo] = React.useState(false);
+
+  const handleCloseInfo = () => {
+    setOpenInfo(false);
+  };
+
+  const [objInfo, setObjInfo] = useState(null);
+  function handleBtnInfo(obj) {
+    setOpenInfo(true);
+
+    setObjInfo(obj);
+  }
+  // for add img modal
+  const [openAddImg, setOpenAddImg] = React.useState(false);
+  const [idxAddImg, setIdxAddImg] = React.useState(false);
+
+  const handleCloseAddImg = () => {
+    setOpenAddImg(false);
+    setIdxAddImg(null);
+  };
+
+  function handleClickAddbtn(id) {
+    setOpenAddImg(true);
+
+    setIdxAddImg(id);
+  }
+
+  function handleAddImgSubmit(e) {
+    const formData = new FormData();
+
+    formData.append("Images", e.target["images"].files[0]);
+    postImgData(idxAddImg, formData);
+
+    setIdxAddImg(null);
+  }
+
   return (
     <div className="max-w-[1400px] m-[0_auto]">
       <div className="header p-[10px_20px]">
@@ -195,15 +267,33 @@ const App = () => {
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     <div className="flex justify-end">
-                      {elem.images.map((img, imgIdx) => {
-                        return (
-                          <img
-                            key={imgIdx}
-                            className="h-[100px] w-[100px]"
-                            src={`${apiImages}/${img.imageName}`}
-                          />
-                        );
-                      })}
+                      <div className="flex items-center w-[150px] gap-3">
+                        <Swiper navigation={true} modules={[Navigation]}>
+                          {elem.images.map((img, imgIdx) => {
+                            return (
+                              <SwiperSlide>
+                                <img
+                                  key={imgIdx}
+                                  className="w-full "
+                                  src={`${apiImages}/${img.imageName}`}
+                                />
+                              </SwiperSlide>
+                            );
+                          })}
+                        </Swiper>
+                        <div className="flex flex-col justify-between bg-[#ffff] p-1">
+                          <IconButton variant="outlined" sx={{ color: "red" }}>
+                            <DeleteIcon />
+                          </IconButton>
+                          <IconButton
+                            onClick={() => handleClickAddbtn(elem.id)}
+                            variant="outlined"
+                            sx={{ color: "blue" }}
+                          >
+                            <AddIcon />
+                          </IconButton>
+                        </div>
+                      </div>
                     </div>
                   </StyledTableCell>
                   <StyledTableCell align="right">
@@ -211,6 +301,7 @@ const App = () => {
                       btnDel={() => handleBtnDel(elem.id)}
                       btnChecked={() => handleBtnChecked(elem.id)}
                       btnEdit={() => handleClickOpenEdit(elem)}
+                      btnInfo={() => handleBtnInfo(elem)}
                     />
                   </StyledTableCell>
                 </StyledTableRow>
@@ -270,6 +361,35 @@ const App = () => {
           </Button>
         </DialogActions>
       </Dialog>
+      {/* add img modal */}
+      <Dialog open={openAddImg} onClose={handleCloseAddImg}>
+        <DialogTitle>Add Image Modal</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To subscribe to this website, please enter your email address here.
+            We will send updates occasionally.
+          </DialogContentText>
+          <form onSubmit={handleAddImgSubmit} id="subscription-form">
+            <TextField
+              autoFocus
+              required
+              margin="dense"
+              id="images"
+              name="images"
+              label="images"
+              type="file"
+              fullWidth
+              variant="standard"
+            />
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseAddImg}>Cancel</Button>
+          <Button type="submit" form="subscription-form">
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {/* edit modal */}
       <Dialog open={openEdit} onClose={handleCloseEdit}>
@@ -312,6 +432,25 @@ const App = () => {
           <Button onClick={handleCloseAdd}>Cancel</Button>
           <Button type="submit" form="subscription-form">
             Edit
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* info modal */}
+      <Dialog
+        open={openInfo}
+        onClose={handleCloseInfo}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Info Modal</DialogTitle>
+        <DialogContent>
+          <CardProf {...objInfo} />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseInfo}>Close</Button>
+          <Button onClick={handleCloseInfo} autoFocus>
+            Ok
           </Button>
         </DialogActions>
       </Dialog>

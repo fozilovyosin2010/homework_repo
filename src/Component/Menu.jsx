@@ -11,10 +11,11 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import VerifiedIcon from "@mui/icons-material/Verified";
+import InfoOutlineIcon from "@mui/icons-material/InfoOutline";
 
 import { IconButton } from "@mui/material";
 
-const Menu = ({ btnDel, btnChecked, btnEdit }) => {
+const Menu = ({ btnDel, btnChecked, btnEdit, btnInfo }) => {
   const [open, setOpen] = React.useState(false);
 
   const handleToggle = () => {
@@ -96,6 +97,9 @@ const Menu = ({ btnDel, btnChecked, btnEdit }) => {
                   </MenuItem>
                   <MenuItem onClick={btnChecked}>
                     <VerifiedIcon />
+                  </MenuItem>
+                  <MenuItem onClick={btnInfo}>
+                    <InfoOutlineIcon />
                   </MenuItem>
                 </MenuList>
               </ClickAwayListener>
