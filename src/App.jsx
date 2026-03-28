@@ -25,7 +25,6 @@ import "swiper/css/navigation";
 
 // import required modules
 import { Navigation } from "swiper/modules";
-import { Typography } from "@mui/material";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -62,6 +61,15 @@ const App = () => {
   const delData = async (id) => {
     try {
       await axios.delete(`${api}/api/to-dos?id=${id}`);
+      getData();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const delImgData = async (id) => {
+    try {
+      await axios.delete(`${api}/api/to-dos/images/${id}`);
       getData();
     } catch (error) {
       console.error(error);
@@ -207,12 +215,13 @@ const App = () => {
   const [objInfo, setObjInfo] = useState(null);
   function handleBtnInfo(obj) {
     setOpenInfo(true);
+    console.log(obj.id);
 
     setObjInfo(obj);
   }
   // for add img modal
   const [openAddImg, setOpenAddImg] = React.useState(false);
-  const [idxAddImg, setIdxAddImg] = React.useState(false);
+  const [idxAddImg, setIdxAddImg] = React.useState(null);
 
   const handleCloseAddImg = () => {
     setOpenAddImg(false);
@@ -224,14 +233,36 @@ const App = () => {
 
     setIdxAddImg(id);
   }
-
   function handleAddImgSubmit(e) {
+    e.preventDefault();
     const formData = new FormData();
 
     formData.append("Images", e.target["images"].files[0]);
     postImgData(idxAddImg, formData);
+    console.log(e.target["images"].files[0]);
 
-    setIdxAddImg(null);
+    handleCloseAddImg();
+  }
+
+  // for del img modal
+  const [openDelImg, setOpenDelImg] = React.useState(false);
+  const [imgArr, setImgArr] = useState([]);
+
+  function handleCloseDelImg() {
+    setOpenDelImg(false);
+
+    setImgArr([]);
+  }
+
+  function handleOpenDelImg(imgs) {
+    setOpenDelImg(true);
+
+    setImgArr(imgs);
+  }
+  function handleClickDelImg(id) {
+    delImgData(id);
+
+    handleCloseDelImg();
   }
 
   return (
@@ -263,12 +294,20 @@ const App = () => {
                     {elem.description}
                   </StyledTableCell>
                   <StyledTableCell align="right">
-                    {elem.isCompleted ? "active" : "inactive"}
+                    <span
+                      className={`${elem.isCompleted ? "bg-[#5353de]" : "bg-[#ec2a2a]"} text-[#fff] font-[700] rounded-[5px] p-[10px_20px]`}
+                    >
+                      {elem.isCompleted ? "complete" : "incomplete"}
+                    </span>
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     <div className="flex justify-end">
                       <div className="flex items-center w-[150px] gap-3">
-                        <Swiper navigation={true} modules={[Navigation]}>
+                        <Swiper
+                          navigation={true}
+                          modules={[Navigation]}
+                          className="mySwiper"
+                        >
                           {elem.images.map((img, imgIdx) => {
                             return (
                               <SwiperSlide>
@@ -281,8 +320,13 @@ const App = () => {
                             );
                           })}
                         </Swiper>
+
                         <div className="flex flex-col justify-between bg-[#ffff] p-1">
-                          <IconButton variant="outlined" sx={{ color: "red" }}>
+                          <IconButton
+                            onClick={() => handleOpenDelImg(elem.images)}
+                            variant="outlined"
+                            sx={{ color: "red" }}
+                          >
                             <DeleteIcon />
                           </IconButton>
                           <IconButton
@@ -391,6 +435,46 @@ const App = () => {
         </DialogActions>
       </Dialog>
 
+      <Dialog
+        open={openDelImg}
+        onClose={handleCloseDelImg}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">Delete Image Modal</DialogTitle>
+        <DialogContent>
+          <Swiper navigation={true} modules={[Navigation]} className="mySwiper">
+            {imgArr.map((img) => {
+              return (
+                <SwiperSlide>
+                  <div className="flex flex-col items-center justify-between">
+                    <img
+                      key={img.id}
+                      className="w-[300px]"
+                      src={`${apiImages}/${img.imageName}`}
+                    />
+                    <div className="py-3 flex justify-end">
+                      <Button
+                        onClick={() => handleClickDelImg(img.id)}
+                        variant="outlined"
+                      >
+                        delete
+                        <DeleteIcon sx={{ color: "red" }} />
+                      </Button>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDelImg} autoFocus>
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       {/* edit modal */}
       <Dialog open={openEdit} onClose={handleCloseEdit}>
         <DialogTitle>Edit</DialogTitle>
@@ -429,7 +513,7 @@ const App = () => {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseAdd}>Cancel</Button>
+          <Button onClick={handleCloseEdit}>Cancel</Button>
           <Button type="submit" form="subscription-form">
             Edit
           </Button>
@@ -448,7 +532,6 @@ const App = () => {
           <CardProf {...objInfo} />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseInfo}>Close</Button>
           <Button onClick={handleCloseInfo} autoFocus>
             Ok
           </Button>

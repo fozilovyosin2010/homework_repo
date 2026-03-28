@@ -23,18 +23,18 @@ const CardProf = ({ isCompleted, images, name, description }) => {
   const apiImages = "http://37.27.29.18:8001/images";
 
   return (
-    <Card sx={{ width: 300, padding: "20px" }}>
+    <Card sx={{ width: 500, maxWidth: "100%", padding: "20px" }}>
       <CardActionArea>
-        <Swiper navigation={true} className="h-[1000px]" modules={[Navigation]}>
+        <Swiper navigation={true} modules={[Navigation]}>
           {images.map((e, i) => {
             return (
-              <SwiperSlide>
+              <SwiperSlide className="flex items-center">
                 <CardMedia
                   key={i}
                   src={`${apiImages}/${e.imageName}`}
                   component="img"
                   height="140"
-                  className="rounded-full"
+                  className="rounded-[20px]"
                   alt="image"
                 />
               </SwiperSlide>
