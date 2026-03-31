@@ -9,8 +9,11 @@ import Stack from "@mui/material/Stack";
 
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import EditIcon from "@mui/icons-material/Edit";
 
 import { IconButton } from "@mui/material";
+import { InfoOutline } from "@mui/icons-material";
 
 class MenuBtn extends Component {
   constructor({ props }) {
@@ -59,7 +62,7 @@ class MenuBtn extends Component {
   render() {
     const { open } = this.state;
 
-    const { btnDel } = this.props;
+    const { btnDel, btnCheck, btnEdit, btnInfo } = this.props;
 
     return (
       <Stack direction="row" spacing={2}>
@@ -102,8 +105,27 @@ class MenuBtn extends Component {
                       <MenuItem onClick={btnDel} sx={{ color: "red" }}>
                         <DeleteIcon />
                       </MenuItem>
-                      <MenuItem onClick={this.handleClose}>My account</MenuItem>
-                      <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                      <MenuItem onClick={btnInfo}>
+                        <InfoOutline />
+                      </MenuItem>
+                      <MenuItem
+                        onClick={(e) => {
+                          btnCheck();
+                          this.handleClose(e);
+                        }}
+                        sx={{ color: "green" }}
+                      >
+                        <CheckCircleIcon />
+                      </MenuItem>
+                      <MenuItem
+                        onClick={(e) => {
+                          btnEdit();
+                          this.handleClose(e);
+                        }}
+                        sx={{ color: "blue" }}
+                      >
+                        <EditIcon />
+                      </MenuItem>
                     </MenuList>
                   </ClickAwayListener>
                 </Paper>
