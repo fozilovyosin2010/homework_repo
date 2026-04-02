@@ -47,7 +47,7 @@ class App extends Component {
           </div>
         </div>
         <div
-          className="container max-w-full"
+          className="container1 max-w-full "
           style={{
             backgroundImage: `url(${Sh2})`,
             backgroundRepeat: "no-repeat",
@@ -103,6 +103,19 @@ class App extends Component {
               </div>
             </div>
           </div>
+        </div>
+        <div className="container2 max-w-[1440px] m-[0_auto]">
+          <div className="block1">
+            <div className="font-[700] text-[32px]">
+              Delivering good designs since 1954 🚚💨
+            </div>
+            <div className="max-w-[1170px] font-[400] text-[24px]">
+              We’re the first multi-purpose design kit solutions for businesses.
+              We help you bridge gaps between your layouts, templates and
+              developers to empower all involved.
+            </div>
+          </div>
+          <div className="block2"></div>
         </div>
       </div>
     );
