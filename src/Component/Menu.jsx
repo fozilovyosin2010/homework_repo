@@ -1,4 +1,4 @@
-import React, { Component, createRef } from "react";
+import React, { Component, createRef, PureComponent } from "react";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
@@ -14,8 +14,9 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import { IconButton } from "@mui/material";
 import { InfoOutline } from "@mui/icons-material";
+import A from "./A";
 
-class MenuBtn extends Component {
+class MenuBtn extends PureComponent {
   constructor({ props }) {
     super(props);
 
@@ -64,6 +65,7 @@ class MenuBtn extends Component {
 
     const { btnDel, btnCheck, btnEdit, btnInfo } = this.props;
 
+    console.log("child renders");
     return (
       <Stack direction="row" spacing={2}>
         <div>
