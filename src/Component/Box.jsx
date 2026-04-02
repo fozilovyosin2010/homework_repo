@@ -6,7 +6,7 @@ import bgBox from "../imgs/bgBox.png";
 const Box = ({ name, title, ulList, btnTxt, checkColor, active }) => {
   return (
     <div
-      className={`relative ${active ? "shadow-[0_16px_24px_#26323814] " : null}`}
+      className={`relative ${active ? "shadow-[0_16px_24px_#26323814] " : null} max-md:w-full shadow-[0_4px_8px_#26323814]`}
     >
       <div className="relative h-full z-20 flex flex-col justify-between gap-[30px] p-[20px_40px] bg-[#fff]">
         <div className="block1">

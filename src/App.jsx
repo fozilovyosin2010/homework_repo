@@ -19,6 +19,13 @@ import like from "./imgs/like.png";
 import sales from "./imgs/sales.png";
 import call from "./imgs/call.png";
 
+import faceB from "./imgs/faceB.png";
+import inIcon from "./imgs/inIcon.png";
+import sIcon from "./imgs/sIcon.png";
+import twit from "./imgs/twit.png";
+
+import waves from "./imgs/waves.png";
+
 import Card from "./Component/Card";
 import Box from "./Component/Box";
 
@@ -92,6 +99,19 @@ class App extends Component {
         des: "You can toggle to any icon within Instances and customize outlined stroke to more bolder or lighter",
         bgColor: "#00B894",
       },
+    ];
+
+    const informationSection = [
+      [
+        { label: "About Fapster app", href: "#" },
+        { label: "Get in Touch", href: "#" },
+        { label: "Things We Like", href: "#" },
+      ],
+      [
+        { label: "Onhovered / Active", href: "#" },
+        { label: "Privacy Policy", href: "#" },
+        { label: "Terms of Service", href: "#" },
+      ],
     ];
 
     const linkList = ["Who we are", "What we do", "Contact us"];
@@ -222,28 +242,107 @@ class App extends Component {
               Bill me{" "}
               <span className="relative">
                 <span className="text-[#6C5CE7] relative z-20"> monthly </span>
-                <div className="absolute left-0 bottom-0 w-full h-[15px] bg-[#FDCB6E] rounded-[15px]"></div>
+                <span className="absolute left-0 bottom-0 w-full h-[15px] bg-[#FDCB6E] rounded-[15px]"></span>
               </span>
               • yearly
             </p>
           </div>
-          <div className="flex justify-between gap-[30px] py-[20px]">
-            {boxList.map((e) => {
-              return <Box {...e} />;
+          <div className="flex justify-between gap-[30px] py-[20px] max-md:flex-wrap">
+            {boxList.map((e, i) => {
+              return <Box key={i} {...e} />;
             })}
           </div>
         </div>
-        <div className="footer">
-          <div className="sec">
-            <div className="block1">
+        <div
+          style={{
+            backgroundImage: `url(${waves})`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "bottom",
+            backgroundSize: "100% 100px",
+          }}
+          className="footer p-[20px] pb-[100px]"
+        >
+          <div className="sec flex justify-between items-center max-md:hidden">
+            <div className="block1 flex flex-col gap-[30px]">
               <div>
                 <span className="text-[#ADADAD] font-bold text-[12px]">
                   follow us
                 </span>
+                <div className="flex justify-between gap-[30px]">
+                  <img className="w-[30px]" src={faceB} alt="" />
+                  <img className="w-[30px]" src={inIcon} alt="" />
+                  <img className="w-[30px]" src={sIcon} alt="" />
+                  <img className="w-[30px]" src={twit} alt="" />
+                </div>
               </div>
-              <div></div>
+              <div className="flex gap-10">
+                {informationSection.map((col, i) => (
+                  <ul key={i}>
+                    {col.map((item, idx) => (
+                      <li key={idx}>
+                        <a href={item.href}>{item.label}</a>
+                      </li>
+                    ))}
+                  </ul>
+                ))}
+              </div>
             </div>
-            <div className="block2"></div>
+            <div className="block2">
+              <div>
+                <span className="text-[#ADADAD] font-bold text-[12px]">
+                  follow us
+                </span>
+                <div className="text-blue-600 bolder">hello@fapsterapp.com</div>
+              </div>
+              <div>
+                <span className="text-[#ADADAD] font-bold text-[12px]">
+                  KEEP IN TOUCH
+                </span>
+                <form action="" className="flex flex-col gap-3">
+                  <div className="flex gap-2">
+                    <input
+                      className="p-[10px_20px] rounded-[15px] placeholder:text-black bg-[#C2C2C2]"
+                      type="text"
+                      placeholder="Your name"
+                    />
+                    <input
+                      className="p-[10px_20px] rounded-[15px] placeholder:text-black bg-[#C2C2C2]"
+                      type="text"
+                      placeholder="E-mail"
+                    />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <textarea className="p-[10px_20px] rounded-[15px] placeholder:text-black bg-[#C2C2C2]">
+                      Lorem ipsum dolor sit amet
+                    </textarea>
+                    <button className="bg-[#6C5CE7] p-[15px_32px] text-[18px] rounded-md font-[700]">
+                      send
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div className="hidden max-md:flex justify-center">
+            <div className="max-w-[330px] flex flex-col gap-[40px]">
+              <div className="block1 text-center flex flex-col gap-3">
+                <div className="text-[#2D3436] font-black">
+                  Copyright © 2018 • Your Company All rights reserved
+                </div>
+                <div className="text-[#00B894]">
+                  Made in Setproduct.com One man digital agency
+                </div>
+                <div className="text-[#6C5CE7] bolder">
+                  hello@setproduct.com
+                </div>
+              </div>
+              <div className="block2 flex justify-between">
+                <img src={faceB} alt="" />
+                <img src={inIcon} alt="" />
+                <img src={sIcon} alt="" />
+                <img src={twit} alt="" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
