@@ -20,9 +20,53 @@ import sales from "./imgs/sales.png";
 import call from "./imgs/call.png";
 
 import Card from "./Component/Card";
+import Box from "./Component/Box";
 
 class App extends Component {
   render() {
+    const boxList = [
+      {
+        name: "Free",
+        title: ["Free", "forever"],
+        ulList: [
+          "Components-driven system",
+          "Sales-boosting landing pages",
+          "Awesome Feather icons pack",
+        ],
+        checkColor: "gray",
+        btnTxt: "Try for free",
+        active: false,
+      },
+      {
+        name: "Individual",
+        title: ["$24", "month"],
+        active: true,
+        ulList: [
+          "Components-driven system",
+          "Sales-boosting landing pages",
+          "Awesome Feather icons pack",
+          "Themed into 3 different styles",
+          "Will help to learn Figma",
+        ],
+        checkColor: "orange",
+        btnTxt: "Regular license",
+      },
+      {
+        name: "Corporate",
+        active: false,
+
+        title: ["$12", "editor"],
+        ulList: [
+          "Components-driven system",
+          "Sales-boosting landing pages",
+          "Awesome Feather icons pack",
+          "Themed into 3 different styles",
+        ],
+        checkColor: "#10B981",
+        btnTxt: "Extended license",
+      },
+    ];
+
     const cardList = [
       {
         icon: call,
@@ -49,6 +93,7 @@ class App extends Component {
         bgColor: "#00B894",
       },
     ];
+
     const linkList = ["Who we are", "What we do", "Contact us"];
     return (
       <div className="inter">
@@ -171,13 +216,35 @@ class App extends Component {
           </div>
         </div>
         <div className="container3 sec p-[20px]">
-          <div>
+          <div className="flex flex-col items-center">
             <h1 className="text-[64px] font-[800]">Affordable pricing</h1>
-            <p className="text-[#9f9e9e] font-[700]">
-              Bill me <span className="text-[#6C5CE7]"> monthly </span> • yearly
+            <p className="text-[32px] font-[700] text-[#9f9e9e] font-[700]">
+              Bill me{" "}
+              <span className="relative">
+                <span className="text-[#6C5CE7] relative z-20"> monthly </span>
+                <div className="absolute left-0 bottom-0 w-full h-[15px] bg-[#FDCB6E] rounded-[15px]"></div>
+              </span>
+              • yearly
             </p>
           </div>
-          <div></div>
+          <div className="flex justify-between gap-[30px] py-[20px]">
+            {boxList.map((e) => {
+              return <Box {...e} />;
+            })}
+          </div>
+        </div>
+        <div className="footer">
+          <div className="sec">
+            <div className="block1">
+              <div>
+                <span className="text-[#ADADAD] font-bold text-[12px]">
+                  follow us
+                </span>
+              </div>
+              <div></div>
+            </div>
+            <div className="block2"></div>
+          </div>
         </div>
       </div>
     );
